@@ -7,7 +7,6 @@ ownerdomain=devs_in_exile.codeberg.page
 # Last update: 10.09.2026
 contact=gitandriiliashenko@gmail.com
 
-
 admanmedia.com, 1063, RESELLER
 admanmedia.com, 2002, RESELLER
 admanmedia.com, 43, RESELLER
