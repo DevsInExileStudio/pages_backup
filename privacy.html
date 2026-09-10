@@ -1,140 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy | Devs In Exile Studio</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121214;
-            color: #e2e8f0;
-            line-height: 1.7;
-            padding: 40px 20px;
-        }
-        .container {
-            max-width: 750px;
-            margin: 0 auto;
-            background: #1a1a1e;
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #2d2d34;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-        h1 {
-            font-size: 28px;
-            color: #ffffff;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        .subtitle {
-            color: #a0aec0;
-            font-size: 14px;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        h2 {
-            font-size: 20px;
-            color: #ffffff;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            border-left: 4px solid #3182ce;
-            padding-left: 12px;
-        }
-        p {
-            color: #cbd5e0;
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
-        ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-            color: #cbd5e0;
-            font-size: 15px;
-        }
-        li {
-            margin-bottom: 5px;
-        }
-        a {
-            color: #3182ce;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .footer {
-            margin-top: 40px;
-            border-top: 1px solid #2d2d34;
-            padding-top: 20px;
-            font-size: 13px;
-            color: #718096;
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy | Devs In Exile Studio</title>
+<meta name="description" content="Privacy policy of Devs In Exile Studio: what data our games and services may collect, how it is used, and the rights and choices available to you.">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<style>
+:root{
+  --bg:#0c0d0f; --panel:#121317; --border:#24262b; --border-soft:#1a1c20;
+  --text:#ece9e2; --muted:#a5a29a; --dim:#7d7a72;
+  --accent:#e6b25a; --accent-soft:#f2d398;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:16px;
+  line-height:1.7;min-height:100vh;display:flex;flex-direction:column;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--accent);color:#171106}
+a{color:inherit;text-decoration:underline;text-decoration-color:#41403a;text-decoration-thickness:1px;
+  text-underline-offset:3px;transition:color .15s ease,text-decoration-color .15s ease}
+a:hover{color:var(--accent-soft);text-decoration-color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px;width:100%}
+main{flex:1}
+
+/* header */
+.site-header{border-bottom:1px solid var(--border-soft)}
+.header-in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--text)}
+.brand:hover{color:var(--text)}
+.brand img{display:block;height:25px;width:auto}
+.brand span{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.site-nav{display:flex;gap:22px}
+.site-nav a{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .15s ease}
+.site-nav a:hover{color:var(--text)}
+.site-nav a[aria-current="page"]{color:var(--accent)}
+
+/* hero */
+.hero{position:relative;padding:58px 0 34px;overflow:hidden}
+.hero-art{position:absolute;top:-14px;right:-84px;color:#16181d;pointer-events:none;user-select:none}
+.hero-art svg{width:380px;height:auto;display:block}
+.hero-in{position:relative}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin-bottom:16px}
+.eyebrow::before{content:"";display:inline-block;width:7px;height:7px;background:var(--accent);margin-right:12px}
+h1.display{font-size:clamp(34px,6vw,54px);line-height:1.08;letter-spacing:-.02em;font-weight:700;margin-bottom:16px}
+h1.display .dot{color:var(--accent)}
+.lead{font-size:17px;color:var(--muted);max-width:54ch;margin-bottom:26px}
+.gp{display:inline-block;text-decoration:none;transition:opacity .15s ease,transform .15s ease}
+.gp:hover{opacity:.85;transform:translateY(-1px)}
+.gp svg{height:52px;width:auto;display:block}
+
+/* page head (subpages) */
+.page-head{padding:44px 0 2px}
+h1.page-title{font-size:clamp(30px,5vw,40px);letter-spacing:-.02em;font-weight:700;margin-bottom:12px}
+.page-sub{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+
+/* sections */
+.sec{padding:22px 0 4px}
+.sec-label{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:12px}
+.sec-label b{color:var(--accent);font-weight:600;margin-right:12px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:22px 24px}
+.card p{color:var(--muted)}
+.status{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.status i{width:7px;height:7px;background:var(--accent);animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.status i{animation:none}}
+
+/* contact rows */
+.clist{list-style:none;border-top:1px solid var(--border-soft)}
+.clist li{display:flex;align-items:baseline;gap:18px;padding:13px 2px;border-bottom:1px solid var(--border-soft)}
+.clist .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);flex:0 0 104px}
+.clist a{text-decoration:none;transition:color .15s ease;overflow-wrap:anywhere}
+.clist a:hover{color:var(--accent-soft)}
+.clist .arrow{color:var(--dim);margin-left:6px}
+
+/* prose */
+.prose{padding-bottom:8px}
+.prose p{color:var(--muted);margin-bottom:16px;font-size:15.5px;max-width:70ch}
+.prose strong{color:var(--text);font-weight:600;overflow-wrap:anywhere}
+.prose ul{margin:0 0 16px;list-style:none}
+.prose li{color:var(--muted);padding-left:22px;position:relative;margin-bottom:7px;font-size:15.5px}
+.prose li::before{content:"\2014";position:absolute;left:0;color:var(--dim)}
+.prose h2{font-size:17px;color:var(--text);margin:28px 0 10px;font-weight:650;letter-spacing:-.01em}
+.prose h2 .no{font-family:var(--mono);font-size:12px;color:var(--accent);margin-right:12px;letter-spacing:.08em}
+.prose h2{scroll-margin-top:24px}
+.toc{display:grid;grid-template-columns:1fr 1fr;gap:2px 36px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 24px}
+.toc a{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-decoration:none;display:block;padding:5px 0;transition:color .15s ease}
+.toc a:hover{color:var(--accent-soft)}
+@media (max-width:700px){.toc{grid-template-columns:1fr}}
+
+/* google play strip */
+.gp-strip{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.gp-strip .txt .t1{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.gp-strip .txt .t2{font-size:17px;font-weight:600;color:var(--text)}
+
+/* form */
+.form-group{margin-bottom:18px}
+label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+input,textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);
+  padding:12px 14px;font:inherit;font-size:15px;transition:border-color .15s ease}
+input:focus,textarea:focus{outline:none;border-color:var(--accent)}
+::placeholder{color:#5c5a53}
+textarea{resize:vertical;min-height:130px}
+.btn{background:var(--text);color:#17150f;border:0;border-radius:8px;padding:13px 28px;font-family:var(--mono);
+  font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .15s ease}
+.btn:hover{background:var(--accent)}
+.form-note{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--dim);margin-top:14px}
+
+/* footer */
+.site-footer{border-top:1px solid var(--border-soft);margin-top:auto;padding:26px 0 38px}
+.footer-in{display:flex;justify-content:space-between;align-items:baseline;gap:14px 28px;flex-wrap:wrap}
+.footer-in p{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--dim)}
+.footer-nav{display:flex;gap:22px;flex-wrap:wrap}
+.footer-nav a{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--dim);text-decoration:none;transition:color .15s ease}
+.footer-nav a:hover{color:var(--accent-soft)}
+
+@media (max-width:700px){
+  .hero{padding:44px 0 26px}
+  .hero-art{right:-150px;top:0}
+  .hero-art svg{width:300px}
+  .clist .k{flex-basis:88px}
+}
+</style>
 </head>
 <body>
+<header class="site-header"><div class="wrap header-in"><a class="brand" href="index.html"><img src="data:image/png;base64,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" alt="" aria-hidden="true"><span>Devs&nbsp;In&nbsp;Exile</span></a><nav class="site-nav" aria-label="Main"><a href="index.html">Home</a><a href="support.html">Support</a><a href="privacy.html" aria-current="page">Privacy</a></nav></div></header>
+<main>
 
-<div class="container">
-    <h1>Privacy Policy</h1>
-    <div class="subtitle">Last updated: June 19, 2026</div>
-    
-    <p>Devs In Exile Studio built the mobile game as a Free app. This SERVICE is provided by Devs In Exile Studio at no cost and is intended for use as is.</p>
-    
-    <p>This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.</p>
-    
-    <p>If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.</p>
+<section class="page-head">
+  <div class="wrap">
+    <h1 class="page-title">Privacy Policy</h1>
+    <p class="page-sub">Last updated: September 10, 2026</p>
+  </div>
+</section>
 
-    <h2>Information Collection and Use</h2>
-    <p>For a better experience, while using our Service, we may require you to provide us with certain personally identifiable information. The information that we request will be retained on your device and is not collected by us in any way.</p>
-    <p>The app does use third-party services that may collect information used to identify you. Links to the privacy policy of third-party service providers used by the app:</p>
-    <ul>
-        <li><a href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener noreferrer">Google Play Services</a></li>
-        <li><a href="https://support.google.com/admob/answer/6128543?hl=en" target="_blank" rel="noopener noreferrer">AdMob</a></li>
-    </ul>
-
-    <h2>Log Data</h2>
-    <p>We want to inform you that whenever you use our Service, in a case of an error in the app we collect data and information (through third-party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address, device name, operating system version, the configuration of the app when utilizing our Service, the time and date of your use of the Service, and other statistics.</p>
-
-    <h2>Cookies</h2>
-    <p>Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device's internal memory.</p>
-    <p>This Service does not use these “cookies” explicitly. However, the app may use third-party code and libraries that use “cookies” to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device.</p>
-
-    <h2>Service Providers</h2>
-    <p>We may employ third-party companies and individuals due to the following reasons:</p>
-    <ul>
-        <li>To facilitate our Service;</li>
-        <li>To provide the Service on our behalf;</li>
-        <li>To perform Service-related services; or</li>
-        <li>To assist us in analyzing how our Service is used.</li>
-    </ul>
-    <p>We want to inform users of this Service that these third parties have access to their Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.</p>
-
-    <h2>Security</h2>
-    <p>We value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.</p>
-
-    <h2>Links to Other Sites</h2>
-    <p>This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
-
-    <h2>Children’s Privacy</h2>
-    <p>These Services do not address anyone under the age of 13. We do not knowingly collect personally identifiable information from children under 13 years of age. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do the necessary actions.</p>
-
-    <h2>Changes to This Privacy Policy</h2>
-    <p>We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.</p>
-
-    <h2>Contact Us</h2>
-    <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at: <strong>gitandriiliashenko@gmail.com</strong></p>
-
-    <div class="footer">
-        <p>&copy; 2026 Devs In Exile Studio. All rights reserved.</p>
-        <p><a href="https://devs_in_exile.codeberg.page/">Back to Home</a></p>
+<section class="sec">
+  <div class="wrap">
+    <div class="card">
+      <p class="sec-label" style="margin-bottom:12px">In short</p>
+      <p style="color:var(--muted);font-size:15.5px">Our games run on your device. We and our partners
+      (mainly Google and Google&rsquo;s advertising platform) collect standard technical and usage data.
+      Some of our games show ads, some offer purchases, some work fully offline &mdash; each game uses only
+      the features it needs. We never receive your full payment card details, and we do not sell your
+      personal information. You can contact us at any time to exercise your rights. The full legal
+      version follows below.</p>
     </div>
-</div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <h2 class="sec-label"><b>&para;</b>Contents</h2>
+    <nav class="toc">
+      <a href="#scope">01 &middot; Scope</a>
+      <a href="#who">02 &middot; Who we are</a>
+      <a href="#collect">03 &middot; Information we may collect</a>
+      <a href="#use">04 &middot; How we use information</a>
+      <a href="#ads">05 &middot; Advertising</a>
+      <a href="#iap">06 &middot; Purchases &amp; payments</a>
+      <a href="#partners">07 &middot; Third-party services</a>
+      <a href="#ai">08 &middot; AI-assisted content</a>
+      <a href="#permissions">09 &middot; Permissions</a>
+      <a href="#sharing">10 &middot; Data sharing</a>
+      <a href="#transfers">11 &middot; International transfers</a>
+      <a href="#retention">12 &middot; Data retention</a>
+      <a href="#security">13 &middot; Data security</a>
+      <a href="#children">14 &middot; Children&rsquo;s privacy</a>
+      <a href="#rights">15 &middot; Your rights &amp; choices</a>
+      <a href="#misc">16 &middot; Do Not Track &amp; links</a>
+      <a href="#changes">17 &middot; Changes to this policy</a>
+      <a href="#contact">18 &middot; Contact us</a>
+    </nav>
+  </div>
+</section>
+
+<section class="sec prose" style="padding-bottom:48px">
+  <div class="wrap">
+
+    <h2 id="scope"><span class="no">01</span>Scope of this policy</h2>
+    <p>This Privacy Policy applies to every game, application and related service published by
+    Devs In Exile Studio (collectively, the &ldquo;Services&rdquo;), regardless of the platform through which
+    they are distributed, including Google Play and any other store, platform or website.</p>
+    <p>Our products differ significantly in their features: some display advertising, some offer
+    in-app purchases, some include online, cloud or social features, and some operate entirely
+    offline. This Policy therefore describes the <strong>full range of data practices that may apply
+    across our Services</strong>. Any individual game or application may rely only on a subset of these
+    practices. Where an individual app presents its own notice within the app (for example, a
+    consent prompt shown before personalized advertising is enabled), that notice supplements and,
+    where more specific, prevails over this Policy.</p>
+    <p>By downloading, installing, accessing or using any of the Services, you acknowledge that you
+    have read and understood this Policy. If you do not agree with it, please do not use the
+    Services.</p>
+
+    <h2 id="who"><span class="no">02</span>Who we are (data controller)</h2>
+    <p>Devs In Exile Studio is an independent game development studio. For the purposes of the EU
+    General Data Protection Regulation (&ldquo;GDPR&rdquo;), the UK GDPR and similar legislation, the data
+    controller is Devs In Exile Studio, contactable at
+    <a href="mailto:DevsInExileStudio@outlook.com"><strong>DevsInExileStudio@outlook.com</strong></a>.</p>
+    <p>We can be reached at this address for any privacy-related matter, including questions,
+    requests and complaints.</p>
+
+    <h2 id="collect"><span class="no">03</span>Information we may collect</h2>
+    <p><strong>a) Information you provide voluntarily.</strong> When you contact us by email or through
+    in-app forms, we receive your name and email address and the content of your message, including
+    any information you choose to include or attach (such as screenshots, screen recordings or log
+    files). Where an app allows user-generated content (for example nicknames or in-game texts), we
+    receive that content. <em>Please do not include sensitive personal information (health data,
+    religious beliefs, precise location, government identifiers, etc.) in your messages &mdash; we do not
+    request it and do not need it.</em></p>
+    <p><strong>b) Information collected automatically.</strong> When you use the Services, we and our
+    service providers may automatically collect: device information (device model, operating system
+    and version, screen characteristics, language and country settings, carrier); identifiers such
+    as the Android advertising identifier (AAID), app instance IDs and your IP address; approximate
+    location inferred from an IP address (country or city level, never precise location); usage
+    data (sessions, features used, levels completed, playtime, progress and settings); performance
+    and diagnostic data (crashes, errors, battery and memory statistics); and, where advertising is
+    displayed, advertising interaction data (views, clicks).</p>
+    <p><strong>c) Information received from third parties.</strong> If you sign in with Google Play Games
+    (where offered), we receive your player identifier and, if you choose to share it, your display
+    name and avatar. If you make a purchase, Google confirms the transaction status to us. Our
+    advertising and analytics partners provide us with measurement data described on
+    <a href="#ads">section 05</a>.</p>
+    <p><strong>d) Purchases.</strong> All payments are processed entirely by Google Play Billing. We never
+    receive or store your full payment card number or other financial account details. We receive
+    only the order identifier, product identifier, purchase time and license status, which we use
+    to unlock and restore your purchases.</p>
+    <p><strong>e) Save data.</strong> Game progress may be stored locally on your device. Where cloud saves
+    via Google Play Games are offered, such data is stored by Google under your Google account and
+    is subject to Google&rsquo;s privacy policy.</p>
+
+    <h2 id="use"><span class="no">04</span>How we use information and on what legal grounds</h2>
+    <p>We use the information described above to:</p>
+    <ul>
+      <li>operate, provide, maintain and improve the Services;</li>
+      <li>validate, grant and restore entitlements (purchases, progress, unlocks);</li>
+      <li>analyze usage and diagnose technical problems in order to develop new features and fix bugs;</li>
+      <li>personalize the experience, including showing advertising that may be personalized;</li>
+      <li>respond to your inquiries and provide support;</li>
+      <li>ensure fair play, prevent fraud, cheating, abuse and security incidents;</li>
+      <li>comply with legal obligations and enforce our rights and terms of service.</li>
+    </ul>
+    <p><strong>Legal bases (EEA, UK and Switzerland).</strong> Where GDPR applies, we process personal data on
+    the following grounds: your <em>consent</em> (for personalized advertising and any optional features);
+    <em>performance of a contract</em> (to provide the app and the functionality you request); our
+    <em>legitimate interests</em> (app functionality, security, fraud prevention, analytics and improvement
+    of the Services, balanced against your rights and freedoms); and <em>compliance with legal
+    obligations</em>.</p>
+
+    <h2 id="ads"><span class="no">05</span>Advertising</h2>
+    <p>Some of our apps display advertising; others do not. Where advertising is displayed, it is
+    served primarily through <strong>Google AdMob</strong> and, in some apps, other advertising networks.
+    Depending on the app and on your choices, ads may be <em>non-personalized</em> (based on the content
+    of the app and general context) or <em>personalized</em> (based on your device&rsquo;s advertising
+    identifier and your interaction with apps).</p>
+    <p>In the EEA, the UK and Switzerland, apps that show personalized advertising present Google&rsquo;s
+    consent dialog before doing so, and you can change or withdraw your choices at any time. In all
+    regions you may additionally: reset or delete your device&rsquo;s advertising identifier, opt out of
+    ads personalization in <em>Android Settings &rarr; Privacy &rarr; Ads</em>, or limit ad tracking on your
+    device.</p>
+    <p>For details on how advertising partners handle data, see: Google&rsquo;s
+    <a href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>,
+    <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">how Google uses information from apps that use its services</a>, and the
+    <a href="https://support.google.com/admob/answer/6128543?hl=en" target="_blank" rel="noopener noreferrer">AdMob privacy information</a>. Advertising partners act as independent
+    controllers of the data they collect; we do not control and are not responsible for their
+    practices or for the content of third-party advertisements.</p>
+
+    <h2 id="iap"><span class="no">06</span>In-app purchases and payments</h2>
+    <p>Where in-app purchases are offered, they are processed solely by <strong>Google Play Billing</strong>.
+    We do not receive, process or store payment instrument data (card numbers, bank details). We
+    receive transaction confirmations (order ID, product ID, status and time) needed to provide,
+    unlock and restore your purchases, and to handle support requests about them. Refunds and
+    billing disputes are handled through Google Play in accordance with its policies.</p>
+
+    <h2 id="partners"><span class="no">07</span>Third-party services and SDKs</h2>
+    <p>Our apps may integrate third-party services that collect information as described in their
+    own privacy policies. Depending on the app, these may include:</p>
+    <ul>
+      <li><a href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener noreferrer">Google Play Services</a> &mdash; core Android functionality;</li>
+      <li><a href="https://support.google.com/admob/answer/6128543?hl=en" target="_blank" rel="noopener noreferrer">Google AdMob</a> &mdash; advertising (in apps that show ads);</li>
+      <li><a href="https://play.google.com/about/play-terms.html" target="_blank" rel="noopener noreferrer">Google Play Billing</a> &mdash; payments (in apps with purchases);</li>
+      <li><a href="https://policies.google.com/" target="_blank" rel="noopener noreferrer">Google Play Games Services</a> &mdash; sign-in, leaderboards and cloud saves (where offered);</li>
+      <li><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">Firebase (Analytics, Crashlytics)</a> &mdash; usage analytics and crash reporting (where enabled).</li>
+    </ul>
+    <p>This list may change as our apps evolve. You may request the current list of providers used
+    by a specific app at any time by writing to us. We encourage you to review the privacy policies
+    of these providers; their processing of data is governed by their own terms, which we do not
+    control.</p>
+
+    <h2 id="ai"><span class="no">08</span>AI-assisted and third-party content</h2>
+    <p>For transparency: some content in our games &mdash; including graphics, text, audio, video and
+    code &mdash; may be created wholly or partly with the assistance of AI-based tools, alongside
+    human-created, licensed and public-domain assets. We do not submit users&rsquo; personal information
+    to such tools as part of content creation.</p>
+    <p>Support correspondence may be reviewed or drafted with the help of automated or AI-assisted
+    tooling, so please do not include personal data beyond what is necessary in your messages. If a
+    particular app offers an interactive AI-driven feature, that app will disclose it within the
+    app, and this section applies together with that disclosure.</p>
+
+    <h2 id="permissions"><span class="no">09</span>Device permissions</h2>
+    <p>Our apps may request Android permissions that are strictly necessary for their features
+    (for example: Internet access, vibration, notifications, or access to media files where you
+    create or import content). You can revoke any permission at any time in your device settings;
+    some features may then stop working.</p>
+
+    <h2 id="sharing"><span class="no">10</span>How we share information</h2>
+    <p>We do not sell your personal information for money. We share it only in the following cases:</p>
+    <ul>
+      <li><strong>Service providers and partners</strong> listed in section 07 (advertising, analytics,
+      payments, cloud infrastructure) that process data on our behalf or as independent
+      controllers under their own policies and applicable law;</li>
+      <li><strong>Authorities</strong>, where disclosure is required by law, regulation or valid legal
+      process, or where necessary to protect our rights, property or the safety of users;</li>
+      <li><strong>A reorganization</strong> &mdash; in connection with a merger, acquisition or transfer of
+      assets, in which case we will notify you of any change of controller;</li>
+      <li><strong>With your consent</strong> in any other case.</li>
+    </ul>
+
+    <h2 id="transfers"><span class="no">11</span>International data transfers</h2>
+    <p>Information may be processed in countries other than your own, including the United States,
+    where our providers (in particular Google LLC) and their infrastructure are located. Where data
+    is transferred from the EEA, the UK or Switzerland, appropriate safeguards are applied, such as
+    the EU Standard Contractual Clauses, the UK International Data Transfer Addendum, the EU&ndash;U.S.
+    Data Privacy Framework (where the recipient is certified), or an adequacy decision. You may
+    request details of the safeguards applied by contacting us.</p>
+
+    <h2 id="retention"><span class="no">12</span>Data retention</h2>
+    <p>We keep personal data only as long as necessary for the purposes described in this Policy:
+    purchase records for as long as needed to guarantee your entitlements and to meet accounting
+    requirements; support correspondence for as long as needed to resolve your request and a
+    reasonable period thereafter; analytics data for the retention periods configured with the
+    respective provider. Data that is no longer needed is deleted or de-identified. Some data may
+    be retained where required by law or for the establishment, exercise or defense of legal
+    claims.</p>
+
+    <h2 id="security"><span class="no">13</span>Data security</h2>
+    <p>We use commercially reasonable administrative, technical and physical safeguards appropriate
+    to the nature of the data, including transmission encryption and restricting processing to what
+    is necessary. However, no method of transmission over the Internet or electronic storage is
+    100% secure, and we cannot guarantee absolute security. If you believe you have found a
+    vulnerability in one of our apps, please report it to us by email.</p>
+
+    <h2 id="children"><span class="no">14</span>Children&rsquo;s privacy</h2>
+    <p>The Services are not directed to children under the age of 13 (or a higher age threshold
+    where required by applicable law), and we do not knowingly collect personal information from
+    children. If we learn that a child under the relevant age has provided us with personal
+    information, we will delete it promptly. Parents and guardians who believe a child has provided
+    personal information may contact us so we can take the necessary actions.</p>
+    <p>Apps of ours that are designed for broader audiences, including families, are configured in
+    line with the applicable store programs (for example, by serving only non-personalized
+    advertising where required).</p>
+
+    <h2 id="rights"><span class="no">15</span>Your rights and choices</h2>
+    <p><strong>EEA, UK and Switzerland.</strong> Subject to applicable law, you have the right to: access
+    your personal data; have inaccurate data rectified; have data erased (&ldquo;right to be
+    forgotten&rdquo;); restrict or object to processing; data portability; withdraw consent at any time
+    (without affecting the lawfulness of processing before withdrawal); and lodge a complaint with
+    your local supervisory authority.</p>
+    <p><strong>California (CCPA/CPRA).</strong> California residents have the right to know what personal
+    information is collected, to access and delete it, to correct inaccurate information, to opt
+    out of the &ldquo;sale&rdquo; or &ldquo;sharing&rdquo; of personal information, and not to be discriminated against
+    for exercising these rights. We do not sell personal information for monetary consideration.
+    However, in ad-supported apps, the sharing of device identifiers with advertising partners for
+    cross-context behavioral advertising may be considered a &ldquo;sale&rdquo; or &ldquo;sharing&rdquo; under
+    California law. You can opt out at any time by (a) turning off ads personalization in your
+    Android settings and/or (b) contacting us by email. We do not knowingly &ldquo;sell&rdquo; personal
+    information of consumers under 16 years of age. We do not collect &ldquo;sensitive personal
+    information&rdquo; as defined by the CPRA.</p>
+    <p><strong>Other regions.</strong> If you are located in a jurisdiction with statutory privacy rights
+    (for example Brazil under the LGPD, Canada, Switzerland or others), you may have similar rights.
+    Contact us and we will honor the rights applicable to you.</p>
+    <p><strong>How to exercise your rights.</strong> Write to
+    <a href="mailto:DevsInExileStudio@outlook.com"><strong>DevsInExileStudio@outlook.com</strong></a>. We may need to verify your identity before
+    processing a request, and we will respond within the statutory period (typically 30 days). You
+    will not be discriminated against for exercising your rights. Where applicable law provides an
+    appeal process, you may appeal our response by replying to our decision.</p>
+
+    <h2 id="misc"><span class="no">16</span>Do Not Track and third-party links</h2>
+    <p>Some browsers transmit &ldquo;Do Not Track&rdquo; signals. As there is no uniform industry standard for
+    responding to them, the Services do not currently respond to such signals. The advertising
+    choices described in <a href="#ads">section 05</a> remain available to you.</p>
+    <p>The Services may contain links to third-party websites, apps or content. If you click a
+    third-party link, you will be directed to a site or service that we do not operate. We have no
+    control over, and assume no responsibility for, the content, privacy policies or practices of
+    any third-party sites or services, and we strongly advise you to review their policies.</p>
+
+    <h2 id="changes"><span class="no">17</span>Changes to this privacy policy</h2>
+    <p>We may update this Policy from time to time, in particular to reflect new features of our
+    games or changes in our providers. The current version is always posted on this page with an
+    updated &ldquo;Last updated&rdquo; date. Where a change is material or required by law, we will provide
+    additional notice (for example, within the affected app or on its store listing). Changes take
+    effect when posted. Your continued use of the Services after a change becomes effective
+    constitutes acceptance of the updated Policy; if you do not agree, please discontinue use.
+    Previous versions are available on request.</p>
+
+    <h2 id="contact"><span class="no">18</span>Contact us</h2>
+    <p>If you have any questions, requests or complaints about this Policy or our data practices,
+    contact us at: <a href="mailto:DevsInExileStudio@outlook.com"><strong>DevsInExileStudio@outlook.com</strong></a>. We aim to respond to all
+    privacy requests within 30 days.</p>
+    <p style="margin-top:28px;color:var(--dim);font-size:13.5px">This Policy does not create rights
+    enforceable by any third party beyond those provided by applicable law. In the event of a
+    conflict between translations of this Policy, the English version governs.</p>
+
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-in">
+    <p>&copy; 2026 Devs In Exile Studio</p>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="app-ads.txt">app-ads.txt</a>
+      <a href="https://play.google.com/store/apps/dev?id=4892425565535374573/" target="_blank" rel="noopener">Google Play&nbsp;&#8599;</a>
+    </nav>
+  </div>
+</footer>
 
 </body>
 </html>
