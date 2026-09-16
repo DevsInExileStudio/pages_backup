@@ -168,9 +168,7 @@ textarea{resize:vertical;min-height:130px}
 .brickyard{border-top:1px solid var(--border-soft);margin-top:56px;padding:28px 0 0;user-select:none;-webkit-user-select:none}
 .by-hint{font-size:13.5px;color:var(--dim);margin:-2px 0 18px;max-width:70ch}
 .plate{--cell:28px;position:relative;height:calc(var(--cell)*8);overflow:hidden;border-top:1px solid var(--border-soft);
-  background-color:#0e0f12;
-  background-image:radial-gradient(circle at 50% 50%,rgba(236,233,226,.06) 0 22%,transparent 24%);
-  background-size:var(--cell) var(--cell)}
+  background-color:#0e0f12}
 .brick{position:absolute;left:0;top:0;width:calc(var(--cell)*var(--w));height:calc(var(--cell)*var(--h));border-radius:4px;
   background-color:#55534c;touch-action:none;cursor:grab;z-index:1;-webkit-touch-callout:none;
   background-image:
@@ -270,13 +268,17 @@ if(!plate)return;
 /* muted palette to match the page */
 var COLORS={gold:"#97713e",sand:"#8a7a55",olive:"#66684a",moss:"#556353",
             slate:"#4c5765",stone:"#585449",rust:"#7b5142",clay:"#6b4a4a"};
-/* [col,row,width,height,color] — initial cluster, 11 cells wide */
-var SPEC=[
-  [0,0,4,1,"gold"],[6,0,2,2,"olive"],[10,0,1,2,"slate"],
-  [0,2,3,1,"rust"],[4,2,2,1,"clay"],[7,2,4,2,"moss"],
-  [0,4,2,2,"sand"],[3,4,2,1,"stone"],[6,5,3,1,"gold"],[2,6,1,1,"rust"]
-];
-var CLUSTER_W=11,ROWS=8;
+var CKEYS=["gold","sand","olive","moss","slate","stone","rust","clay"];
+
+var ROWS=8;
+/* deterministic PRNG so the wall looks the same on every load */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* Brick sizes: 1x1..1x4 and 2x1..2x6, both vertical and horizontal. */
+var SIZES=[[1,1],[2,1],[1,2],[3,1],[1,3],[4,1],[1,4],[2,2],[2,3],[3,2],[2,4],[4,2],[6,2],[2,6]];
+/* weighted pools: bottom row a mix of low and tall pieces, upper tiers smaller */
+var BOTTOM=[[2,1],[2,1],[3,1],[3,1],[4,1],[1,1],[2,2],[2,2],[2,2],[1,2],[1,2],[3,2],[3,2],[4,2],[1,3],[2,3],[1,4],[2,4],[6,2],[2,6]];
+var TOP=[[1,1],[2,1],[2,1],[1,2],[2,2],[3,1],[1,3]];
 
 var bricks=[],cell=28,cols=0,ox=0,oy=0,first=true;
 
@@ -286,7 +288,6 @@ function measure(){
   cols=Math.max(4,Math.floor(W/cell));
   ox=Math.round((W-cols*cell)/2);
   oy=Math.round((plate.clientHeight-ROWS*cell)/2);
-  plate.style.backgroundPosition=ox+"px "+oy+"px";
 }
 function fits(b,col,row){
   if(col<0||row<0||col+b.w>cols||row+b.h>ROWS)return false;
@@ -371,18 +372,80 @@ function bind(b){
     if(fits(b,b.col+dx,b.row+dy)){b.col+=dx;b.row+=dy;place(b,false);}
   });
 }
+function genWall(n){
+  /* a chaotic jagged line anchored to the bottom, spread evenly
+     across the whole plate width */
+  var rnd=mulberry32(20260916);
+  var i,c,x=0,placed=[],heights=[];
+  for(i=0;i<n;i++)heights.push(0);
+  var missing=SIZES.slice();
+  /* bottom row */
+  while(x<n){
+    if(!missing.length&&rnd()<0.14){x++;continue;} /* occasional gap */
+    var s=null;
+    if(missing.length&&rnd()<0.6){
+      for(i=0;i<missing.length;i++){
+        if(missing[i][0]<=n-x&&missing[i][1]<=ROWS-2){s=missing.splice(i,1)[0];break;}
+      }
+    }
+    if(!s)s=BOTTOM[(rnd()*BOTTOM.length)|0];
+    if(x+s[0]>n)s=(n-x)>=2?[2,1]:[1,1]; /* fit the right edge */
+    placed.push({x:x,base:0,w:s[0],h:s[1]});
+    for(c=x;c<x+s[0];c++)heights[c]=s[1];
+    x+=s[0];
+  }
+  /* upper tiers — stack where supported, keeping the wall bottom-heavy */
+  var passes=[[0.5,6],[0.3,6],[0.15,7]];
+  for(i=0;i<passes.length;i++){
+    var p=passes[i][0],cap=passes[i][1];
+    x=0;
+    while(x<n){
+      if(heights[x]<1){x++;continue;}
+      var run=0;
+      while(x+run<n&&heights[x+run]>=1)run++;
+      if(rnd()<p){
+        var t=TOP[(rnd()*TOP.length)|0];
+        if(t[0]>run)t=run>=2?[2,1]:(t[1]>1?[1,2]:[1,1]);
+        var maxH=0;
+        for(c=x;c<x+t[0];c++)if(heights[c]>maxH)maxH=heights[c];
+        if(maxH+t[1]<=cap){
+          placed.push({x:x,base:maxH,w:t[0],h:t[1]});
+          for(c=x;c<x+t[0];c++)heights[c]=maxH+t[1];
+          x+=t[0];
+        }else x++;
+      }else x++;
+    }
+  }
+  return placed;
+}
+function buildBricks(){
+  var placed=genWall(cols),i;
+  for(i=0;i<placed.length;i++){
+    var sp=placed[i];
+    var el=document.createElement("div");
+    el.className="brick";
+    el.style.setProperty("--w",sp.w);
+    el.style.setProperty("--h",sp.h);
+    el.style.backgroundColor=COLORS[CKEYS[(i*5)%CKEYS.length]];
+    el.tabIndex=0;
+    el.setAttribute("aria-label","Toy brick, "+sp.w+" by "+sp.h+" studs. Use arrow keys to move it.");
+    plate.appendChild(el);
+    var b={w:sp.w,h:sp.h,col:sp.x,row:ROWS-sp.base-sp.h,el:el};
+    bind(b);
+    bricks.push(b);
+    place(b,true);
+  }
+}
 function relayout(){
   measure();
   var i,b;
   if(first){
-    var c0=Math.max(0,Math.round((cols-CLUSTER_W)/2));
+    first=false;
+    buildBricks();
     for(i=0;i<bricks.length;i++){
       b=bricks[i];
-      b.col=b.spec[0]+c0;b.row=b.spec[1];
       if(!fits(b,b.col,b.row))moveTo(b,b.col,b.row,true);
-      else place(b,true);
     }
-    first=false;
   }else{
     for(i=0;i<bricks.length;i++){
       b=bricks[i];
@@ -391,19 +454,6 @@ function relayout(){
     }
   }
 }
-SPEC.forEach(function(sp){
-  var el=document.createElement("div");
-  el.className="brick";
-  el.style.setProperty("--w",sp[2]);
-  el.style.setProperty("--h",sp[3]);
-  el.style.backgroundColor=COLORS[sp[4]];
-  el.tabIndex=0;
-  el.setAttribute("aria-label","Toy brick, "+sp[2]+" by "+sp[3]+" studs. Use arrow keys to move it.");
-  plate.appendChild(el);
-  var b={spec:sp,w:sp[2],h:sp[3],col:0,row:0,el:el};
-  bind(b);
-  bricks.push(b);
-});
 relayout();
 window.addEventListener("resize",relayout);
 })();
