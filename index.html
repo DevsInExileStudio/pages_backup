@@ -168,9 +168,7 @@ textarea{resize:vertical;min-height:130px}
 .brickyard{border-top:1px solid var(--border-soft);margin-top:56px;padding:28px 0 0;user-select:none;-webkit-user-select:none}
 .by-hint{font-size:13.5px;color:var(--dim);margin:-2px 0 18px;max-width:70ch}
 .plate{--cell:28px;position:relative;height:calc(var(--cell)*8);overflow:hidden;border-top:1px solid var(--border-soft);
-  background-color:#0e0f12;
-  background-image:radial-gradient(circle at 50% 50%,rgba(236,233,226,.06) 0 22%,transparent 24%);
-  background-size:var(--cell) var(--cell)}
+  background:transparent}
 .brick{position:absolute;left:0;top:0;width:calc(var(--cell)*var(--w));height:calc(var(--cell)*var(--h));border-radius:4px;
   background-color:#55534c;touch-action:none;cursor:grab;z-index:1;-webkit-touch-callout:none;
   background-image:
@@ -256,7 +254,7 @@ textarea{resize:vertical;min-height:130px}
 <section class="brickyard" aria-label="Brick playground">
   <div class="wrap">
     <h2 class="sec-label"><b>03</b>Brick yard</h2>
-    <p class="by-hint">Grab a brick with your mouse or finger and drop it anywhere on the plate &mdash; it snaps to the studs.</p>
+    <p class="by-hint">Grab a brick with your mouse or finger and drop it anywhere on the plate &mdash; it snaps into place.</p>
   </div>
   <div class="plate" id="brickPlate"></div>
 </section>
@@ -270,13 +268,16 @@ if(!plate)return;
 /* muted palette to match the page */
 var COLORS={gold:"#97713e",sand:"#8a7a55",olive:"#66684a",moss:"#556353",
             slate:"#4c5765",stone:"#585449",rust:"#7b5142",clay:"#6b4a4a"};
-/* [col,row,width,height,color] — initial cluster, 11 cells wide */
+/* [col,row,width,height,color] — solid 12x6 mosaic, 27 bricks */
 var SPEC=[
-  [0,0,4,1,"gold"],[6,0,2,2,"olive"],[10,0,1,2,"slate"],
-  [0,2,3,1,"rust"],[4,2,2,1,"clay"],[7,2,4,2,"moss"],
-  [0,4,2,2,"sand"],[3,4,2,1,"stone"],[6,5,3,1,"gold"],[2,6,1,1,"rust"]
+  [0,0,2,2,"gold"],[2,0,3,1,"slate"],[5,0,2,1,"olive"],[7,0,3,1,"sand"],[10,0,2,1,"rust"],
+  [2,1,2,1,"moss"],[4,1,1,1,"clay"],[5,1,2,2,"stone"],[7,1,4,1,"gold"],[11,1,1,1,"slate"],
+  [0,2,2,1,"rust"],[2,2,3,1,"sand"],[7,2,2,2,"olive"],[9,2,3,1,"clay"],
+  [0,3,1,2,"slate"],[1,3,2,1,"gold"],[3,3,3,1,"moss"],[6,3,1,1,"sand"],[9,3,3,1,"stone"],
+  [1,4,3,1,"clay"],[4,4,2,2,"rust"],[6,4,2,1,"slate"],[8,4,4,1,"olive"],
+  [0,5,4,1,"stone"],[6,5,2,1,"gold"],[8,5,1,1,"moss"],[9,5,3,1,"sand"]
 ];
-var CLUSTER_W=11,ROWS=8;
+var CLUSTER_W=12,ROWS=8;
 
 var bricks=[],cell=28,cols=0,ox=0,oy=0,first=true;
 
@@ -286,7 +287,6 @@ function measure(){
   cols=Math.max(4,Math.floor(W/cell));
   ox=Math.round((W-cols*cell)/2);
   oy=Math.round((plate.clientHeight-ROWS*cell)/2);
-  plate.style.backgroundPosition=ox+"px "+oy+"px";
 }
 function fits(b,col,row){
   if(col<0||row<0||col+b.w>cols||row+b.h>ROWS)return false;
