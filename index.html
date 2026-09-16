@@ -157,7 +157,7 @@ textarea{resize:vertical;min-height:130px}
 @media (max-width:700px){.streams{grid-template-columns:1fr}}
 
 /* footer */
-.site-footer{border-top:1px solid var(--border-soft);margin-top:auto;padding:26px 0 38px}
+.site-footer{border-top:1px solid var(--border-soft);margin-top:auto;padding:26px 0;}
 .footer-in{display:flex;justify-content:space-between;align-items:baseline;gap:14px 28px;flex-wrap:wrap}
 .footer-in p{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--dim)}
 .footer-nav{display:flex;gap:22px;flex-wrap:wrap}
@@ -165,7 +165,7 @@ textarea{resize:vertical;min-height:130px}
 .footer-nav a:hover{color:var(--accent-soft)}
 
 /* brick playground — very bottom of the page */
-.brickyard{border-top:1px solid var(--border-soft);margin-top:56px;padding:28px 0 0;user-select:none;-webkit-user-select:none}
+.brickyard{margin-top:-20px;padding:20px 0 0;user-select:none;-webkit-user-select:none}
 .by-hint{font-size:13.5px;color:var(--dim);margin:-2px 0 18px;max-width:70ch}
 .plate{--cell:28px;position:relative;height:calc(var(--cell)*8);overflow:hidden;border-top:1px solid var(--border-soft);
   background-color:#0e0f11}
@@ -252,10 +252,6 @@ textarea{resize:vertical;min-height:130px}
 </footer>
 
 <section class="brickyard" aria-label="Brick playground">
-  <div class="wrap">
-    <h2 class="sec-label"><b>03</b>Brick yard</h2>
-    <p class="by-hint">Grab a brick with your mouse or finger and drop it anywhere on the plate &mdash; it snaps to the studs.</p>
-  </div>
   <div class="plate" id="brickPlate"></div>
 </section>
 
