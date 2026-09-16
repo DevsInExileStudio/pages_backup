@@ -164,6 +164,28 @@ textarea{resize:vertical;min-height:130px}
 .footer-nav a{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--dim);text-decoration:none;transition:color .15s ease}
 .footer-nav a:hover{color:var(--accent-soft)}
 
+/* brick playground — very bottom of the page */
+.brickyard{border-top:1px solid var(--border-soft);margin-top:56px;padding:28px 0 0;user-select:none;-webkit-user-select:none}
+.by-hint{font-size:13.5px;color:var(--dim);margin:-2px 0 18px;max-width:70ch}
+.plate{--cell:28px;position:relative;height:calc(var(--cell)*8);overflow:hidden;border-top:1px solid var(--border-soft);
+  background-color:#0e0f12;
+  background-image:radial-gradient(circle at 50% 50%,rgba(236,233,226,.06) 0 22%,transparent 24%);
+  background-size:var(--cell) var(--cell)}
+.brick{position:absolute;left:0;top:0;width:calc(var(--cell)*var(--w));height:calc(var(--cell)*var(--h));border-radius:4px;
+  background-color:#55534c;touch-action:none;cursor:grab;z-index:1;-webkit-touch-callout:none;
+  background-image:
+    radial-gradient(circle at 43% 40%,rgba(255,255,255,.22) 0 10%,transparent 12%),
+    radial-gradient(circle at 49% 47%,rgba(255,255,255,.10) 0 28%,transparent 30%),
+    radial-gradient(circle at 52% 54%,rgba(0,0,0,.34) 0 30%,transparent 32%);
+  background-size:var(--cell) var(--cell);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09),inset 0 -2px 0 rgba(0,0,0,.30),0 1px 2px rgba(0,0,0,.45)}
+.brick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.brick.settle{transition:transform .22s cubic-bezier(.2,.9,.3,1.25)}
+.brick.drag{cursor:grabbing;z-index:10;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.30),0 12px 20px -8px rgba(0,0,0,.7)}
+@media (max-width:700px){.plate{--cell:24px}}
+@media (prefers-reduced-motion:reduce){.brick.settle{transition:none}}
+
 @media (max-width:700px){
   .hero{padding:44px 0 26px}
   .hero-art{right:-150px;top:0}
@@ -230,6 +252,162 @@ textarea{resize:vertical;min-height:130px}
     </nav>
   </div>
 </footer>
+
+<section class="brickyard" aria-label="Brick playground">
+  <div class="wrap">
+    <h2 class="sec-label"><b>03</b>Brick yard</h2>
+    <p class="by-hint">Grab a brick with your mouse or finger and drop it anywhere on the plate &mdash; it snaps to the studs.</p>
+  </div>
+  <div class="plate" id="brickPlate"></div>
+</section>
+
+<script>
+(function(){
+"use strict";
+var plate=document.getElementById("brickPlate");
+if(!plate)return;
+
+/* muted palette to match the page */
+var COLORS={gold:"#97713e",sand:"#8a7a55",olive:"#66684a",moss:"#556353",
+            slate:"#4c5765",stone:"#585449",rust:"#7b5142",clay:"#6b4a4a"};
+/* [col,row,width,height,color] — initial cluster, 11 cells wide */
+var SPEC=[
+  [0,0,4,1,"gold"],[6,0,2,2,"olive"],[10,0,1,2,"slate"],
+  [0,2,3,1,"rust"],[4,2,2,1,"clay"],[7,2,4,2,"moss"],
+  [0,4,2,2,"sand"],[3,4,2,1,"stone"],[6,5,3,1,"gold"],[2,6,1,1,"rust"]
+];
+var CLUSTER_W=11,ROWS=8;
+
+var bricks=[],cell=28,cols=0,ox=0,oy=0,first=true;
+
+function measure(){
+  cell=parseFloat(getComputedStyle(plate).getPropertyValue("--cell"))||28;
+  var W=plate.clientWidth;
+  cols=Math.max(4,Math.floor(W/cell));
+  ox=Math.round((W-cols*cell)/2);
+  oy=Math.round((plate.clientHeight-ROWS*cell)/2);
+  plate.style.backgroundPosition=ox+"px "+oy+"px";
+}
+function fits(b,col,row){
+  if(col<0||row<0||col+b.w>cols||row+b.h>ROWS)return false;
+  for(var i=0;i<bricks.length;i++){var o=bricks[i];
+    if(o!==b&&col<o.col+o.w&&col+b.w>o.col&&row<o.row+o.h&&row+b.h>o.row)return false;}
+  return true;
+}
+var ORDER=null;
+function offsets(){
+  if(ORDER)return ORDER;
+  var list=[];
+  for(var dy=-9;dy<=9;dy++)for(var dx=-9;dx<=9;dx++)list.push([dx,dy,dx*dx+dy*dy]);
+  list.sort(function(a,b){return a[2]-b[2];});
+  return ORDER=list;
+}
+function place(b,instant){
+  var x=ox+b.col*cell,y=oy+b.row*cell;
+  b.el.classList.toggle("settle",!instant);
+  b.el.style.transform="translate("+x+"px,"+y+"px)";
+}
+function moveTo(b,col,row,instant){
+  col=Math.max(0,Math.min(col,cols-b.w));
+  row=Math.max(0,Math.min(row,ROWS-b.h));
+  if(!fits(b,col,row)){
+    var best=null,list=offsets();
+    for(var i=0;i<list.length;i++){
+      var c=col+list[i][0],r=row+list[i][1];
+      if(fits(b,c,r)){best=[c,r];break;}
+    }
+    if(!best){ /* full-grid fallback */
+      outer:for(var rr=0;rr<=ROWS-b.h;rr++)for(var cc=0;cc<=cols-b.w;cc++)
+        if(fits(b,cc,rr)){best=[cc,rr];break outer;}
+    }
+    if(best){col=best[0];row=best[1];}
+    else{place(b,instant);return;} /* grid full — stay put */
+  }
+  b.col=col;b.row=row;
+  place(b,instant);
+  if(!instant&&navigator.vibrate){try{navigator.vibrate(8);}catch(_){}}
+}
+function bind(b){
+  var active=false,sx=0,sy=0,px=0,py=0;
+  b.el.addEventListener("pointerdown",function(e){
+    if(e.button!==undefined&&e.button!==0)return;
+    active=true;
+    var r=b.el.getBoundingClientRect(),pr=plate.getBoundingClientRect();
+    sx=r.left-pr.left;sy=r.top-pr.top;px=e.clientX;py=e.clientY;
+    b.el.classList.remove("settle");
+    b.el.classList.add("drag");
+    try{b.el.setPointerCapture(e.pointerId);}catch(_){}
+    e.preventDefault();
+  });
+  b.el.addEventListener("pointermove",function(e){
+    if(!active)return;
+    var x=sx+e.clientX-px,y=sy+e.clientY-py;
+    x=Math.max(0,Math.min(x,plate.clientWidth-b.w*cell));
+    y=Math.max(0,Math.min(y,plate.clientHeight-b.h*cell));
+    b.el.style.transform="translate("+x+"px,"+y+"px) scale(1.04)";
+  });
+  function end(){
+    if(!active)return;active=false;
+    b.el.classList.remove("drag");
+    var r=b.el.getBoundingClientRect(),pr=plate.getBoundingClientRect();
+    moveTo(b,Math.round((r.left-pr.left-ox)/cell),Math.round((r.top-pr.top-oy)/cell),false);
+  }
+  b.el.addEventListener("pointerup",end);
+  b.el.addEventListener("pointercancel",function(){
+    if(!active)return;active=false;
+    b.el.classList.remove("drag");
+    place(b,false);
+  });
+  b.el.addEventListener("keydown",function(e){
+    var dx=0,dy=0;
+    switch(e.key){
+      case "ArrowLeft":dx=-1;break;
+      case "ArrowRight":dx=1;break;
+      case "ArrowUp":dy=-1;break;
+      case "ArrowDown":dy=1;break;
+      default:return;
+    }
+    e.preventDefault();
+    if(fits(b,b.col+dx,b.row+dy)){b.col+=dx;b.row+=dy;place(b,false);}
+  });
+}
+function relayout(){
+  measure();
+  var i,b;
+  if(first){
+    var c0=Math.max(0,Math.round((cols-CLUSTER_W)/2));
+    for(i=0;i<bricks.length;i++){
+      b=bricks[i];
+      b.col=b.spec[0]+c0;b.row=b.spec[1];
+      if(!fits(b,b.col,b.row))moveTo(b,b.col,b.row,true);
+      else place(b,true);
+    }
+    first=false;
+  }else{
+    for(i=0;i<bricks.length;i++){
+      b=bricks[i];
+      if(!fits(b,b.col,b.row))moveTo(b,b.col,b.row,true);
+      else place(b,true);
+    }
+  }
+}
+SPEC.forEach(function(sp){
+  var el=document.createElement("div");
+  el.className="brick";
+  el.style.setProperty("--w",sp[2]);
+  el.style.setProperty("--h",sp[3]);
+  el.style.backgroundColor=COLORS[sp[4]];
+  el.tabIndex=0;
+  el.setAttribute("aria-label","Toy brick, "+sp[2]+" by "+sp[3]+" studs. Use arrow keys to move it.");
+  plate.appendChild(el);
+  var b={spec:sp,w:sp[2],h:sp[3],col:0,row:0,el:el};
+  bind(b);
+  bricks.push(b);
+});
+relayout();
+window.addEventListener("resize",relayout);
+})();
+</script>
 
 </body>
 </html>
