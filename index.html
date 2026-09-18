@@ -164,25 +164,115 @@ textarea{resize:vertical;min-height:130px}
 .footer-nav a{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--dim);text-decoration:none;transition:color .15s ease}
 .footer-nav a:hover{color:var(--accent-soft)}
 
-/* brick playground — very bottom of the page */
-.brickyard{margin-top:-20px;padding:20px 0 0;user-select:none;-webkit-user-select:none}
-.by-hint{font-size:13.5px;color:var(--dim);margin:-2px 0 18px;max-width:70ch}
-.plate{--cell:28px;position:relative;height:calc(var(--cell)*8);overflow:hidden;border-top:1px solid var(--border-soft);
-  background-color:#0e0f11}
-.brick{position:absolute;left:0;top:0;width:calc(var(--cell)*var(--w));height:calc(var(--cell)*var(--h));border-radius:4px;
-  background-color:#16181d;touch-action:none;cursor:grab;z-index:1;-webkit-touch-callout:none;
+/* brickyard — footer mini-game (1010-style brick puzzle) */
+.brickyard{user-select:none;-webkit-user-select:none}
+.by-head{display:block;width:100%;padding:0;margin:0;background:none;border:0;
+  border-top:1px solid var(--border-soft);color:inherit;font:inherit;text-align:left;cursor:pointer}
+.by-head-in{display:flex;align-items:center;gap:18px;height:54px}
+.by-title{margin:0;transition:color .15s ease}
+.by-head:hover .by-title,.by-head:focus-visible .by-title{color:var(--text)}
+.by-note{font-size:13px;color:var(--dim);margin-right:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.by-best{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--dim);white-space:nowrap}
+.by-best b{color:var(--accent);font-weight:600}
+.by-chev{flex:0 0 auto;width:8px;height:8px;border-right:2px solid var(--dim);border-bottom:2px solid var(--dim);
+  transform:rotate(-45deg);transition:transform .3s ease,border-color .15s ease}
+.brickyard.open .by-chev{transform:rotate(135deg)}
+.by-head:hover .by-chev,.by-head:focus-visible .by-chev{border-color:var(--accent)}
+.by-fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.brickyard.open .by-fold{grid-template-rows:1fr}
+.by-fold-in{overflow:hidden;visibility:hidden;transition:visibility 0s linear .35s}
+.brickyard.open .by-fold-in{visibility:visible;transition:visibility 0s}
+.by-bar{border-top:1px solid var(--border-soft);padding:18px 0 14px;display:flex;align-items:flex-end;
+  justify-content:space-between;gap:12px 28px;flex-wrap:wrap}
+.by-hint{font-size:13px;color:var(--dim);max-width:56ch;margin:0;flex:1}
+.by-hint kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--border);border-bottom-width:2px;
+  border-radius:4px;padding:0 5px;color:var(--muted);white-space:nowrap}
+.by-right{display:flex;align-items:center;gap:18px}
+.by-stats{display:flex;gap:24px}
+.by-stat .k{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:3px}
+.by-stat .v{display:inline-block;font-family:var(--mono);font-size:20px;font-weight:600;line-height:1;color:var(--text)}
+.by-stat .v.bump{animation:bybump .35s ease}
+@keyframes bybump{40%{transform:scale(1.35);color:var(--accent)}}
+.by-btn{background:var(--text);color:#17150f;border:0;border-radius:7px;padding:10px 18px;font-family:var(--mono);
+  font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;
+  transition:background .15s ease,transform .15s ease}
+.by-btn:hover{background:var(--accent)}
+.by-btn:active{transform:translateY(1px)}
+.plate{--bs:34px;position:relative;background-color:#0e0f11;border-top:1px solid var(--border-soft);
+  padding:24px 0 28px;overflow:hidden}
+.by-arena{display:flex;align-items:center;justify-content:center;gap:20px}
+.board{--cell:var(--bs);position:relative;display:grid;
+  grid-template-columns:repeat(8,var(--cell));grid-template-rows:repeat(8,var(--cell))}
+.board.flash{animation:byflash .5s ease}
+@keyframes byflash{0%{box-shadow:0 0 0 1px var(--accent),0 0 18px -6px rgba(230,178,90,.35)}
+  100%{box-shadow:0 0 0 1px transparent}}
+.cell{width:var(--cell);height:var(--cell);border-radius:4px;background-color:#101216;
+  background-image:radial-gradient(circle at 50% 44%,rgba(255,255,255,.05) 0 20%,transparent 22%);
+  box-shadow:inset 0 0 0 1px #16181d}
+.cell.hot{background-color:#22262f;box-shadow:inset 0 0 0 1px var(--accent)}
+.cell.hot.bad{background-color:#251c1c;box-shadow:inset 0 0 0 1px #6f4545}
+.cell.lit,.cell.hot.lit{background-color:#2c2617;box-shadow:inset 0 0 0 1px rgba(230,178,90,.55)}
+.tile{position:absolute;border-radius:4px;
   background-image:
-    radial-gradient(circle at 43% 40%,rgba(255,255,255,.06) 0 10%,transparent 12%),
-    radial-gradient(circle at 49% 47%,rgba(255,255,255,.03) 0 28%,transparent 30%),
-    radial-gradient(circle at 52% 54%,rgba(0,0,0,.45) 0 30%,transparent 32%);
+    radial-gradient(circle at 43% 40%,rgba(255,255,255,.09) 0 11%,transparent 13%),
+    radial-gradient(circle at 49% 47%,rgba(255,255,255,.04) 0 27%,transparent 29%),
+    radial-gradient(circle at 52% 54%,rgba(0,0,0,.42) 0 29%,transparent 31%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 -2px 0 rgba(0,0,0,.38),0 1px 2px rgba(0,0,0,.5)}
+.tile.drop{animation:bydrop .2s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes bydrop{0%{transform:scale(1.22)}100%{transform:scale(1)}}
+.tile.pop{animation:bypop .32s ease forwards}
+@keyframes bypop{0%{transform:scale(1)}35%{transform:scale(1.22)}100%{transform:scale(0);opacity:0}}
+.pts{position:absolute;z-index:6;transform:translate(-50%,0);font-family:var(--mono);font-size:13px;font-weight:700;
+  color:var(--accent);pointer-events:none;white-space:nowrap;animation:bypts .9s ease forwards}
+.pts.big{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-soft)}
+@keyframes bypts{0%{opacity:0;transform:translate(-50%,6px)}18%{opacity:1}100%{opacity:0;transform:translate(-50%,-30px)}}
+.by-side{--cell:calc(var(--bs)*.8);display:flex;flex-direction:column;gap:12px}
+.slot{width:calc(var(--cell)*4.4);height:calc(var(--cell)*4.4);display:flex;align-items:center;justify-content:center;
+  border:1px dashed #1d2027;border-radius:8px}
+.brick{width:calc(var(--cell)*var(--w));height:calc(var(--cell)*var(--h));border-radius:4px;background-color:#16181d;
+  touch-action:none;cursor:grab;-webkit-touch-callout:none;
+  background-image:
+    radial-gradient(circle at 43% 40%,rgba(255,255,255,.09) 0 11%,transparent 13%),
+    radial-gradient(circle at 49% 47%,rgba(255,255,255,.04) 0 27%,transparent 29%),
+    radial-gradient(circle at 52% 54%,rgba(0,0,0,.42) 0 29%,transparent 31%);
   background-size:var(--cell) var(--cell);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),inset 0 -2px 0 rgba(0,0,0,.40),0 1px 2px rgba(0,0,0,.55)}
-.brick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.brick.settle{transition:transform .22s cubic-bezier(.2,.9,.3,1.25)}
-.brick.drag{cursor:grabbing;z-index:10;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 0 rgba(0,0,0,.30),0 12px 20px -8px rgba(0,0,0,.7)}
-@media (max-width:700px){.plate{--cell:24px}}
-@media (prefers-reduced-motion:reduce){.brick.settle{transition:none}}
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 -2px 0 rgba(0,0,0,.38),0 1px 2px rgba(0,0,0,.5)}
+.brick:focus-visible,.brick.kb{outline:2px solid var(--accent);outline-offset:2px}
+.brick.ghosted{opacity:.16}
+.brick.used{visibility:hidden}
+.brick.ghost{position:fixed;left:0;top:0;z-index:1000;pointer-events:none;will-change:transform;
+  filter:drop-shadow(0 12px 14px rgba(0,0,0,.55))}
+.brick.ghost.dim{opacity:.75}
+.by-side .brick{animation:byin .28s cubic-bezier(.2,.9,.3,1.2) backwards}
+.by-side .slot:nth-child(2) .brick{animation-delay:.05s}
+.by-side .slot:nth-child(3) .brick{animation-delay:.1s}
+.by-side .slot:nth-child(4) .brick{animation-delay:.15s}
+@keyframes byin{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+.by-over{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;background:rgba(12,13,15,.9);opacity:0;transition:opacity .3s ease}
+.by-over[hidden]{display:none}
+.by-over.show{opacity:1}
+.by-over .t1{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.by-over .t2{font-size:34px;font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.by-over .t3{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.by-over .t3.newbest{color:var(--accent)}
+.by-over .btn{margin-top:12px}
+.by-live{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);
+  white-space:nowrap;border:0}
+@media (max-width:700px){
+  .plate{--bs:27px;padding:18px 0 22px}
+  .by-arena{flex-direction:column;gap:14px}
+  .by-arena .board{order:-1}
+  .by-side{flex-direction:row;justify-content:center}
+  .by-note{display:none}
+  .by-bar{padding:14px 0 12px}
+  .by-stat .v{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){
+  .tile.drop,.tile.pop,.pts,.board.flash,.by-stat .v.bump,.by-side .brick{animation:none}
+  .by-over,.by-fold{transition:none}
+}
 
 @media (max-width:700px){
   .hero{padding:44px 0 26px}
@@ -239,6 +329,48 @@ textarea{resize:vertical;min-height:130px}
 </section>
 
 </main>
+
+<section class="brickyard" aria-label="Brickyard mini-game">
+  <button class="by-head" id="byHead" type="button" aria-expanded="false" aria-controls="byFold">
+    <span class="wrap by-head-in">
+      <span class="sec-label by-title"><b>03</b>Brickyard</span>
+      <span class="by-note">A tiny puzzle hiding at the bottom of the page &mdash; click to play</span>
+      <span class="by-best">Best&nbsp;<b id="byBest">0</b></span>
+      <span class="by-chev" aria-hidden="true"></span>
+    </span>
+  </button>
+  <div class="by-fold" id="byFold">
+    <div class="by-fold-in">
+      <div class="wrap by-bar">
+        <p class="by-hint">Drag bricks from the side trays onto the plate &mdash; fill a complete row or column
+        to clear it. Clear several lines at once, or with drops in a row, to build combos. The game ends when
+        no brick fits. Keyboard: <kbd>Tab</kbd> to a brick, <kbd>Enter</kbd> to pick it up,
+        <kbd>&#8592;&#8593;&#8595;&#8594;</kbd> to aim, <kbd>Enter</kbd> to place.</p>
+        <div class="by-right">
+          <div class="by-stats">
+            <div class="by-stat"><span class="k">Score</span><span class="v" id="byScore">0</span></div>
+          </div>
+          <button class="by-btn" id="byRestart" type="button">Restart</button>
+        </div>
+      </div>
+      <div class="plate" id="byPlate">
+        <div class="by-arena">
+          <div class="by-side" id="bySideL"></div>
+          <div class="board" id="byBoard"></div>
+          <div class="by-side" id="bySideR"></div>
+        </div>
+        <div class="by-over" id="byOver" hidden>
+          <p class="t1">Game over</p>
+          <p class="t2" id="byFinal">0</p>
+          <p class="t3" id="byOverBest">Best 0</p>
+          <button class="btn" id="byAgain" type="button">Play again</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="by-live" aria-live="polite" id="byLive"></p>
+</section>
+
 <footer class="site-footer">
   <div class="wrap footer-in">
     <p>&copy; 2026 Devs In Exile Studio</p>
@@ -251,223 +383,367 @@ textarea{resize:vertical;min-height:130px}
   </div>
 </footer>
 
-<section class="brickyard" aria-label="Brick playground">
-  <div class="plate" id="brickPlate"></div>
-</section>
-
 <script>
 (function(){
 "use strict";
-var plate=document.getElementById("brickPlate");
-if(!plate)return;
+/* Brickyard — a tiny 1010-style brick puzzle at the very bottom of the page */
+var N=8;
+var board=document.getElementById("byBoard");
+if(!board)return;
+var sideL=document.getElementById("bySideL"),
+    sideR=document.getElementById("bySideR"),
+    yard=document.querySelector(".brickyard"),
+    head=document.getElementById("byHead"),
+    plate=document.getElementById("byPlate"),
+    overEl=document.getElementById("byOver"),
+    finalEl=document.getElementById("byFinal"),
+    overBestEl=document.getElementById("byOverBest"),
+    againBtn=document.getElementById("byAgain"),
+    restartBtn=document.getElementById("byRestart"),
+    scoreEl=document.getElementById("byScore"),
+    bestEl=document.getElementById("byBest"),
+    live=document.getElementById("byLive");
 
-/* palette based on #16181d and its shades */
-var COLORS={a:"#16181d",b:"#1a1c22",c:"#14161b",d:"#1e2026",
-            e:"#121419",f:"#181a1f",g:"#1c1e23",h:"#202228"};
-var CKEYS=["a","b","c","d","e","f","g","h"];
+var PALETTE=["#3a4150","#475163","#535e74","#5f6b84","#7a849b"];
+var GOLD="#e6b25a";
+/* [width,height,weight] — fixed orientation, no rotation, like a tray of bricks */
+var POOL=[[1,1,3],[2,1,4],[1,2,4],[3,1,3],[1,3,3],[2,2,4],[4,1,2],[1,4,2],[3,2,2],[2,3,2],[4,2,1],[2,4,1]];
+var POOL_SUM=0,i;
+for(i=0;i<POOL.length;i++)POOL_SUM+=POOL[i][2];
 
-var ROWS=8;
-/* the wall is exactly 30 studs wide and sits dead centre of the plate;
-   on narrow screens it shrinks to whatever fits */
-var WALL=30;
-/* deterministic PRNG so the wall looks the same on every load */
-function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+var grid=new Array(N*N),cells=[],slots=[];
+var score=0,best=0,streak=0,dead=false,bestBeaten=false;
 
-/* Brick sizes: 1x1..1x4 and 2x1..2x6, both vertical and horizontal. */
-var SIZES=[[1,1],[2,1],[1,2],[3,1],[1,3],[4,1],[1,4],[2,2],[2,3],[3,2],[2,4],[4,2],[6,2],[2,6]];
-/* weighted pools: bottom row a mix of low and tall pieces, upper tiers smaller */
-var BOTTOM=[[2,1],[2,1],[3,1],[3,1],[4,1],[1,1],[2,2],[2,2],[2,2],[1,2],[1,2],[3,2],[3,2],[4,2],[1,3],[2,3],[1,4],[2,4],[6,2],[2,6]];
-var TOP=[[1,1],[2,1],[2,1],[1,2],[2,2],[3,1],[1,3]];
+try{best=parseInt(localStorage.getItem("brickyardBest"),10)||0;}catch(_){}
+bestEl.textContent=best;
 
-var bricks=[],cell=28,cols=0,ox=0,oy=0,first=true,wallCols=0,wallOff=0;
-
-function measure(){
-  cell=parseFloat(getComputedStyle(plate).getPropertyValue("--cell"))||28;
-  var W=plate.clientWidth;
-  cols=Math.max(4,Math.floor(W/cell));
-  ox=Math.round((W-cols*cell)/2);
-  oy=Math.round((plate.clientHeight-ROWS*cell)/2);
-  /* empty plate cells stay on both sides of the wall */
-  wallCols=Math.min(WALL,cols);
-  wallOff=Math.floor((cols-wallCols)/2);
+/* ---------- board ---------- */
+for(i=0;i<N*N;i++){
+  grid[i]=null;
+  var cd=document.createElement("div");
+  cd.className="cell";
+  board.appendChild(cd);
+  cells.push(cd);
 }
-function fits(b,col,row){
-  if(col<0||row<0||col+b.w>cols||row+b.h>ROWS)return false;
-  for(var i=0;i<bricks.length;i++){var o=bricks[i];
-    if(o!==b&&col<o.col+o.w&&col+b.w>o.col&&row<o.row+o.h&&row+b.h>o.row)return false;}
+function bp(){return cells[0].getBoundingClientRect().width||34;}
+function canPlace(w,h,c0,r0){
+  if(c0<0||r0<0||c0+w>N||r0+h>N)return false;
+  for(var r=r0;r<r0+h;r++)for(var c=c0;c<c0+w;c++)if(grid[r*N+c])return false;
   return true;
 }
-var ORDER=null;
-function offsets(){
-  if(ORDER)return ORDER;
-  var list=[];
-  for(var dy=-9;dy<=9;dy++)for(var dx=-9;dx<=9;dx++)list.push([dx,dy,dx*dx+dy*dy]);
-  list.sort(function(a,b){return a[2]-b[2];});
-  return ORDER=list;
+function fitsAnywhere(w,h){
+  for(var r=0;r<=N-h;r++)for(var c=0;c<=N-w;c++)if(canPlace(w,h,c,r))return true;
+  return false;
 }
-function place(b,instant){
-  var x=ox+b.col*cell,y=oy+b.row*cell;
-  b.el.classList.toggle("settle",!instant);
-  b.el.style.transform="translate("+x+"px,"+y+"px)";
-}
-function moveTo(b,col,row,instant){
-  col=Math.max(0,Math.min(col,cols-b.w));
-  row=Math.max(0,Math.min(row,ROWS-b.h));
-  if(!fits(b,col,row)){
-    var best=null,list=offsets();
-    for(var i=0;i<list.length;i++){
-      var c=col+list[i][0],r=row+list[i][1];
-      if(fits(b,c,r)){best=[c,r];break;}
-    }
-    if(!best){ /* full-grid fallback */
-      outer:for(var rr=0;rr<=ROWS-b.h;rr++)for(var cc=0;cc<=cols-b.w;cc++)
-        if(fits(b,cc,rr)){best=[cc,rr];break outer;}
-    }
-    if(best){col=best[0];row=best[1];}
-    else{place(b,instant);return;} /* grid full — stay put */
+
+/* ---------- placement preview ---------- */
+var hot=[];
+function clearPreview(){for(var j=0;j<hot.length;j++)hot[j].className="cell";hot.length=0;}
+function showPreview(p,c0,r0){
+  clearPreview();
+  var ok=canPlace(p.w,p.h,c0,r0);
+  var foot=new Array(N*N),r,c,k,cell;
+  for(r=r0;r<r0+p.h;r++)for(c=c0;c<c0+p.w;c++){
+    k=r*N+c;foot[k]=1;cell=cells[k];
+    cell.className="cell hot"+(ok?"":" bad");
+    hot.push(cell);
   }
-  b.col=col;b.row=row;
-  place(b,instant);
-  if(!instant&&navigator.vibrate){try{navigator.vibrate(8);}catch(_){}}
-}
-function bind(b){
-  var active=false,sx=0,sy=0,px=0,py=0;
-  b.el.addEventListener("pointerdown",function(e){
-    if(e.button!==undefined&&e.button!==0)return;
-    active=true;
-    var r=b.el.getBoundingClientRect(),pr=plate.getBoundingClientRect();
-    sx=r.left-pr.left;sy=r.top-pr.top;px=e.clientX;py=e.clientY;
-    b.el.classList.remove("settle");
-    b.el.classList.add("drag");
-    try{b.el.setPointerCapture(e.pointerId);}catch(_){}
-    e.preventDefault();
-  });
-  b.el.addEventListener("pointermove",function(e){
-    if(!active)return;
-    var x=sx+e.clientX-px,y=sy+e.clientY-py;
-    x=Math.max(0,Math.min(x,plate.clientWidth-b.w*cell));
-    y=Math.max(0,Math.min(y,plate.clientHeight-b.h*cell));
-    b.el.style.transform="translate("+x+"px,"+y+"px) scale(1.04)";
-  });
-  function end(){
-    if(!active)return;active=false;
-    b.el.classList.remove("drag");
-    var r=b.el.getBoundingClientRect(),pr=plate.getBoundingClientRect();
-    moveTo(b,Math.round((r.left-pr.left-ox)/cell),Math.round((r.top-pr.top-oy)/cell),false);
+  if(!ok)return;
+  /* glow the rows/columns this drop would complete */
+  var rr,cc,lit;
+  for(rr=r0;rr<r0+p.h;rr++){
+    lit=true;
+    for(c=0;c<N;c++)if(!grid[rr*N+c]&&!foot[rr*N+c]){lit=false;break;}
+    if(lit)for(c=0;c<N;c++){cell=cells[rr*N+c];if(cell.className.indexOf("lit")<0){cell.className+=" lit";hot.push(cell);}}
   }
-  b.el.addEventListener("pointerup",end);
-  b.el.addEventListener("pointercancel",function(){
-    if(!active)return;active=false;
-    b.el.classList.remove("drag");
-    place(b,false);
-  });
-  b.el.addEventListener("keydown",function(e){
-    var dx=0,dy=0;
-    switch(e.key){
-      case "ArrowLeft":dx=-1;break;
-      case "ArrowRight":dx=1;break;
-      case "ArrowUp":dy=-1;break;
-      case "ArrowDown":dy=1;break;
-      default:return;
-    }
-    e.preventDefault();
-    if(fits(b,b.col+dx,b.row+dy)){b.col+=dx;b.row+=dy;place(b,false);}
-  });
-}
-function genWall(n){
-  /* a chaotic jagged line anchored to the bottom, spread evenly
-     across the n studs it is given (30, centred on the plate) */
-  var rnd=mulberry32(20260916);
-  var i,c,x=0,placed=[],heights=[];
-  for(i=0;i<n;i++)heights.push(0);
-  var missing=SIZES.slice();
-  /* bottom row */
-  while(x<n){
-    if(!missing.length&&rnd()<0.14){x++;continue;} /* occasional gap */
-    var s=null;
-    if(missing.length&&rnd()<0.6){
-      for(i=0;i<missing.length;i++){
-        if(missing[i][0]<=n-x&&missing[i][1]<=ROWS-2){s=missing.splice(i,1)[0];break;}
-      }
-    }
-    if(!s)s=BOTTOM[(rnd()*BOTTOM.length)|0];
-    if(x+s[0]>n)s=(n-x)>=2?[2,1]:[1,1]; /* fit the right edge */
-    placed.push({x:x,base:0,w:s[0],h:s[1]});
-    for(c=x;c<x+s[0];c++)heights[c]=s[1];
-    x+=s[0];
-  }
-  /* upper tiers — stack where supported, keeping the wall bottom-heavy */
-  var passes=[[0.5,6],[0.3,6],[0.15,7]];
-  for(i=0;i<passes.length;i++){
-    var p=passes[i][0],cap=passes[i][1];
-    x=0;
-    while(x<n){
-      if(heights[x]<1){x++;continue;}
-      var run=0;
-      while(x+run<n&&heights[x+run]>=1)run++;
-      if(rnd()<p){
-        var t=TOP[(rnd()*TOP.length)|0];
-        if(t[0]>run)t=run>=2?[2,1]:(t[1]>1?[1,2]:[1,1]);
-        var maxH=0;
-        for(c=x;c<x+t[0];c++)if(heights[c]>maxH)maxH=heights[c];
-        if(maxH+t[1]<=cap){
-          placed.push({x:x,base:maxH,w:t[0],h:t[1]});
-          for(c=x;c<x+t[0];c++)heights[c]=maxH+t[1];
-          x+=t[0];
-        }else x++;
-      }else x++;
-    }
-  }
-  return placed;
-}
-function buildBricks(){
-  var placed=genWall(wallCols),i;
-  for(i=0;i<placed.length;i++){
-    var sp=placed[i];
-    var el=document.createElement("div");
-    el.className="brick";
-    el.style.setProperty("--w",sp.w);
-    el.style.setProperty("--h",sp.h);
-    el.style.backgroundColor=COLORS[CKEYS[(i*5)%CKEYS.length]];
-    el.tabIndex=0;
-    el.setAttribute("aria-label","Toy brick, "+sp.w+" by "+sp.h+" studs. Use arrow keys to move it.");
-    plate.appendChild(el);
-    var b={w:sp.w,h:sp.h,col:wallOff+sp.x,row:ROWS-sp.base-sp.h,el:el};
-    bind(b);
-    bricks.push(b);
-    place(b,true);
+  for(cc=c0;cc<c0+p.w;cc++){
+    lit=true;
+    for(r=0;r<N;r++)if(!grid[r*N+cc]&&!foot[r*N+cc]){lit=false;break;}
+    if(lit)for(r=0;r<N;r++){cell=cells[r*N+cc];if(cell.className.indexOf("lit")<0){cell.className+=" lit";hot.push(cell);}}
   }
 }
-function relayout(){
-  var prevOff=wallOff,shift=0;
-  measure();
-  var i,b;
-  if(first){
-    first=false;
-    buildBricks();
-    for(i=0;i<bricks.length;i++){
-      b=bricks[i];
-      if(!fits(b,b.col,b.row))moveTo(b,b.col,b.row,true);
+
+/* ---------- scoring ---------- */
+function buzz(ms){if(navigator.vibrate){try{navigator.vibrate(ms);}catch(_){}}}
+function addScore(pts){
+  score+=pts;
+  if(score>best){
+    best=score;bestBeaten=true;bestEl.textContent=best;
+    try{localStorage.setItem("brickyardBest",String(best));}catch(_){}
+  }
+  scoreEl.textContent=score;
+}
+function bump(){
+  scoreEl.classList.remove("bump");
+  void scoreEl.offsetWidth;
+  scoreEl.classList.add("bump");
+}
+function popupAt(txt,cls,x,y){
+  var d=document.createElement("div");
+  d.className="pts"+(cls?" "+cls:"");
+  d.textContent=txt;
+  d.style.left=x+"px";d.style.top=y+"px";
+  board.appendChild(d);
+  setTimeout(function(){d.remove();},950);
+}
+
+/* ---------- placing & clearing ---------- */
+function collectLines(){
+  var rows=[],cols=[],r,c,full;
+  for(r=0;r<N;r++){full=true;for(c=0;c<N;c++)if(!grid[r*N+c]){full=false;break;}if(full)rows.push(r);}
+  for(c=0;c<N;c++){full=true;for(r=0;r<N;r++)if(!grid[r*N+c]){full=false;break;}if(full)cols.push(c);}
+  return{rows:rows,cols:cols};
+}
+function clearLines(lines){
+  var idx={},r,c,i,t,sx=0,sy=0,n=0,b=bp();
+  for(r=0;r<lines.rows.length;r++)for(c=0;c<N;c++)idx[lines.rows[r]*N+c]=1;
+  for(c=0;c<lines.cols.length;c++)for(r=0;r<N;r++)idx[r*N+lines.cols[c]]=1;
+  for(i in idx){
+    t=grid[i];
+    if(t){
+      sx+=parseFloat(t.style.left);sy+=parseFloat(t.style.top);n++;
+      t.classList.add("pop");grid[i]=null;
+      (function(el){setTimeout(function(){el.remove();},340);})(t);
     }
+  }
+  return n?[sx/n+(b-2)/2,sy/n+(b-2)/2]:[N*b/2,N*b/2];
+}
+function placePiece(p,c0,r0,focusNext){
+  var b=bp(),r,c,t;
+  for(r=r0;r<r0+p.h;r++)for(c=c0;c<c0+p.w;c++){
+    t=document.createElement("div");
+    t.className="tile drop";
+    t.style.left=c*b+1+"px";t.style.top=r*b+1+"px";
+    t.style.width=b-2+"px";t.style.height=b-2+"px";
+    t.style.backgroundColor=p.color;
+    board.appendChild(t);
+    grid[r*N+c]=t;
+  }
+  addScore(p.w*p.h);
+  var lines=collectLines(),n=lines.rows.length+lines.cols.length;
+  if(n>0){
+    streak++;
+    var pts=10*n*n*streak;
+    var mid=clearLines(lines);
+    addScore(pts);bump();
+    popupAt("+"+pts,"",mid[0],mid[1]);
+    if(streak>1)popupAt("combo \u00d7"+streak,"big",mid[0],Math.max(10,mid[1]-32));
+    board.classList.remove("flash");void board.offsetWidth;board.classList.add("flash");
+    buzz(16);
+    live.textContent="Cleared "+n+(n>1?" lines":" line")+". Score "+score+".";
   }else{
-    /* the plate got wider/narrower — slide everything so the
-       30-stud wall keeps sitting in the middle */
-    shift=wallOff-prevOff;
-    if(shift)for(i=0;i<bricks.length;i++){
-      b=bricks[i];
-      b.col=Math.max(0,Math.min(b.col+shift,cols-b.w));
-    }
-    /* second pass: only now are all neighbours in their new place,
-       so collision checks are meaningful */
-    for(i=0;i<bricks.length;i++){
-      b=bricks[i];
-      if(!fits(b,b.col,b.row))moveTo(b,b.col,b.row,true);
-      else place(b,true);
-    }
+    streak=0;buzz(6);
+    live.textContent="Placed. Score "+score+".";
+  }
+  var allUsed=true,j;
+  for(j=0;j<slots.length;j++)if(!slots[j].used)allUsed=false;
+  if(allUsed)newTray();
+  checkDead();
+  if(focusNext&&!dead)for(j=0;j<slots.length;j++)if(!slots[j].used){slots[j].el.focus();break;}
+}
+function checkDead(){
+  var j;
+  for(j=0;j<slots.length;j++)if(!slots[j].used&&fitsAnywhere(slots[j].w,slots[j].h))return;
+  dead=true;
+  finalEl.textContent=score;
+  var nb=bestBeaten&&score>0;
+  overBestEl.textContent=nb?"New best!":"Best "+best;
+  overBestEl.classList.toggle("newbest",nb);
+  overEl.hidden=false;
+  requestAnimationFrame(function(){requestAnimationFrame(function(){overEl.classList.add("show");});});
+  againBtn.focus();
+  live.textContent="Game over. Final score "+score+".";
+}
+
+/* ---------- tray ---------- */
+function genPiece(){
+  var x=Math.random()*POOL_SUM,w=1,h=1,j;
+  for(j=0;j<POOL.length;j++){x-=POOL[j][2];if(x<=0){w=POOL[j][0];h=POOL[j][1];break;}}
+  var color=Math.random()<0.1?GOLD:PALETTE[(Math.random()*PALETTE.length)|0];
+  return{w:w,h:h,color:color};
+}
+function newTray(){
+  sideL.innerHTML="";sideR.innerHTML="";slots.length=0;
+  for(var j=0;j<4;j++){
+    var p=genPiece();
+    var slot=document.createElement("div");slot.className="slot";
+    var el=document.createElement("div");el.className="brick";
+    el.style.setProperty("--w",p.w);
+    el.style.setProperty("--h",p.h);
+    el.style.backgroundColor=p.color;
+    el.tabIndex=0;
+    el.setAttribute("role","button");
+    el.setAttribute("aria-label","Brick, "+p.w+" by "+p.h+" studs. Enter to pick up, arrow keys to aim, Enter to place.");
+    p.el=el;p.used=false;
+    slot.appendChild(el);
+    (j<2?sideL:sideR).appendChild(slot);
+    bindDrag(p);bindKeys(p);
+    slots.push(p);
   }
 }
-relayout();
-window.addEventListener("resize",relayout);
+
+/* ---------- pointer drag ---------- */
+function bindDrag(p){
+  var el=p.el,ghost=null,offX=0,offY=0,target=null,pid=null;
+  function start(e){
+    if(dead||p.used)return;
+    if(e.button!==undefined&&e.button!==0)return;
+    e.preventDefault();
+    try{el.setPointerCapture(e.pointerId);}catch(_){}
+    pid=e.pointerId;
+    /* scale the grab offset from tray-size bricks to board-size cells */
+    var tr=el.getBoundingClientRect(),b=bp(),tc=tr.width/p.w;
+    offX=(e.clientX-tr.left)*(b/tc);
+    offY=(e.clientY-tr.top)*(b/tc);
+    ghost=document.createElement("div");
+    ghost.className="brick ghost";
+    ghost.style.setProperty("--cell",b+"px");
+    ghost.style.setProperty("--w",p.w);
+    ghost.style.setProperty("--h",p.h);
+    ghost.style.backgroundColor=p.color;
+    document.body.appendChild(ghost);
+    el.classList.add("ghosted");
+    move(e);
+  }
+  function move(e){
+    if(!ghost||e.pointerId!==pid)return;
+    var b=bp(),br=board.getBoundingClientRect();
+    var x=e.clientX-offX,y=e.clientY-offY;
+    target=null;
+    var near=x+p.w*b/2>br.left-b&&x+p.w*b/2<br.right+b&&y+p.h*b/2>br.top-b&&y+p.h*b/2<br.bottom+b;
+    if(near){
+      var c0=Math.max(0,Math.min(N-p.w,Math.round((x-br.left)/b)));
+      var r0=Math.max(0,Math.min(N-p.h,Math.round((y-br.top)/b)));
+      if(canPlace(p.w,p.h,c0,r0)){
+        target=[c0,r0];
+        ghost.classList.remove("dim");
+        ghost.style.transform="translate("+(br.left+c0*b)+"px,"+(br.top+r0*b)+"px)";
+      }else{
+        ghost.classList.add("dim");
+        ghost.style.transform="translate("+x+"px,"+y+"px)";
+      }
+      showPreview(p,c0,r0);
+    }else{
+      ghost.classList.add("dim");
+      ghost.style.transform="translate("+x+"px,"+y+"px)";
+      clearPreview();
+    }
+  }
+  function end(e){
+    if(!ghost||e.pointerId!==pid)return;
+    var t=target;
+    if(t&&canPlace(p.w,p.h,t[0],t[1])){
+      ghost.remove();ghost=null;pid=null;
+      el.classList.remove("ghosted");
+      el.classList.add("used");el.tabIndex=-1;el.blur();
+      clearPreview();
+      p.used=true;
+      placePiece(p,t[0],t[1],false);
+    }else{
+      /* fly the brick back into its slot */
+      clearPreview();
+      var tr=el.getBoundingClientRect(),b=bp(),tc=tr.width/p.w,g=ghost;
+      ghost=null;pid=null;
+      g.style.transformOrigin="top left";
+      g.style.transition="transform .18s ease,opacity .18s ease";
+      g.style.transform="translate("+tr.left+"px,"+tr.top+"px) scale("+(tc/b)+")";
+      setTimeout(function(){g.remove();el.classList.remove("ghosted");},200);
+    }
+  }
+  el.addEventListener("pointerdown",start);
+  el.addEventListener("pointermove",move);
+  el.addEventListener("pointerup",end);
+  el.addEventListener("pointercancel",end);
+}
+
+/* ---------- keyboard ---------- */
+function bindKeys(p){
+  var el=p.el,kb=null;
+  el.addEventListener("keydown",function(e){
+    if(dead||p.used)return;
+    var k=e.key;
+    if(k==="Enter"||k===" "){
+      e.preventDefault();
+      if(!kb){
+        kb={c:Math.floor((N-p.w)/2),r:Math.floor((N-p.h)/2)};
+        el.classList.add("kb");
+        showPreview(p,kb.c,kb.r);
+        live.textContent="Brick over column "+(kb.c+1)+", row "+(kb.r+1)+".";
+      }else if(canPlace(p.w,p.h,kb.c,kb.r)){
+        /* capture the spot first: hiding the focused element below fires a
+           synchronous blur, whose handler resets kb */
+        var kc=kb.c,kr=kb.r;
+        kb=null;
+        el.classList.remove("kb");
+        el.classList.add("used");el.tabIndex=-1;
+        clearPreview();
+        p.used=true;
+        placePiece(p,kc,kr,true);
+      }else{
+        live.textContent="No room there.";
+        buzz(30);
+      }
+      return;
+    }
+    if(!kb)return;
+    if(k==="Escape"){e.preventDefault();kb=null;clearPreview();el.classList.remove("kb");return;}
+    var dx=0,dy=0;
+    if(k==="ArrowLeft")dx=-1;
+    else if(k==="ArrowRight")dx=1;
+    else if(k==="ArrowUp")dy=-1;
+    else if(k==="ArrowDown")dy=1;
+    else return;
+    e.preventDefault();
+    kb.c=Math.max(0,Math.min(N-p.w,kb.c+dx));
+    kb.r=Math.max(0,Math.min(N-p.h,kb.r+dy));
+    showPreview(p,kb.c,kb.r);
+    live.textContent="Column "+(kb.c+1)+", row "+(kb.r+1)+".";
+  });
+  el.addEventListener("blur",function(){
+    if(kb){kb=null;clearPreview();el.classList.remove("kb");}
+  });
+}
+
+/* ---------- fold / unfold ---------- */
+function refreshTiles(){
+  var b=bp();
+  for(var j=0;j<grid.length;j++){
+    var t=grid[j];if(!t)continue;
+    t.style.left=(j%N)*b+1+"px";
+    t.style.top=((j/N)|0)*b+1+"px";
+    t.style.width=b-2+"px";
+    t.style.height=b-2+"px";
+  }
+}
+head.addEventListener("click",function(){
+  var open=!yard.classList.contains("open");
+  yard.classList.toggle("open",open);
+  head.setAttribute("aria-expanded",open?"true":"false");
+  if(open)setTimeout(function(){
+    refreshTiles();
+    try{plate.scrollIntoView({behavior:"smooth",block:"nearest"});}
+    catch(_){plate.scrollIntoView();}
+  },380);
+});
+
+/* ---------- restart / resize ---------- */
+function restart(){
+  score=0;streak=0;dead=false;bestBeaten=false;
+  scoreEl.textContent="0";
+  for(var j=0;j<grid.length;j++)if(grid[j]){grid[j].remove();grid[j]=null;}
+  clearPreview();
+  overEl.classList.remove("show");overEl.hidden=true;
+  newTray();
+  live.textContent="New game.";
+}
+restartBtn.addEventListener("click",restart);
+againBtn.addEventListener("click",restart);
+var rAF=null;
+window.addEventListener("resize",function(){
+  if(rAF)cancelAnimationFrame(rAF);
+  rAF=requestAnimationFrame(function(){rAF=null;refreshTiles();});
+});
+restart();
 })();
 </script>
 
